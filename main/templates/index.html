@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<label>Enter a state: </label>
+<input type="text" id="state">
+<button onclick="execute(document.getElementById('state').value)">Sumbit</button>
+
+
+
+<div id='rick-and-morty-characters'></div>
+<div id="todays-temp"></div>
+
+
+
+<script>
+
+
+function execute(state) {
+        if(state == "CA") {
+            fetch('https://api.weather.gov/gridpoints/MTR/97,82/forecast')
+               .then(response => response.json())
+               .then(characters => showCharacters(characters.properties.periods));
+           }
+         else{
+         console.log("something");
+         }
+    };
+
+
+
+showCharacters = characters => {
+  const charactersDiv = document.querySelector('#rick-and-morty-characters');
+  characters.forEach(character => {
+    const characterElement = document.createElement('p');
+    characterElement.innerText = `Period Name: ${character.name}`;
+    charactersDiv.append(characterElement);
+  });
+
+  const tempDiv = document.querySelector('#todays-temp');
+    characters.forEach(i => {
+        if (i.name == "This Afternoon"){
+            const tempElement = document.createElement('p');
+            tempElement.innerText = `Todays Temp: ${i.temperature}`;
+            tempDiv.append(tempElement);}
+     });
+}
+
+
+
+
+</script>
+</body>
+
+</html>
