@@ -5,53 +5,149 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Home</title>
+    <style>
+       .zoom {
+              padding: 50px;
+
+              transition: transform .2s; /* Animation */
+
+
+            }
+
+            .zoom:hover {
+                  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+                }
+    </style>
+
+    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/vendor/DataTables/css/datatables.min.css">
+    <link rel="stylesheet" href="/static/vendor/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
-<body>
+<body onload="setOriginal()">
 
-<label>Enter a state: </label>
-<input type="text" id="state">
-<button onclick="execute(document.getElementById('state').value)">Sumbit</button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a href="#" class="navbar-brand">Home</a>
+
+        <div class="collapse navbar-collapse" >
+            <ul class="navbar-nav ml-auto">
+
+<!--                <li class="nav-item active">-->
+<!--                    <a href="/" class="nav-link">Home</a>-->
+<!--                </li>-->
+
+<!--                <li class="nav-item">-->
+<!--                    <a href="/configure" class="nav-link">Configure</a>-->
+<!--                </li>-->
 
 
 
-<div id='rick-and-morty-characters'></div>
-<div id="todays-temp"></div>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+<br>
+ <div class="container alert alert-secondary">
+    <label >Enter a state: </label>
+    <input type="text" id="state">
+    <button onclick="execute(document.getElementById('state').value)">Sumbit</button>
+</div>
+
+<div >
+    <img class="zoom" style="width:250px;height:250px;" src="data:image/png;base64,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" alt="Picture of California" onclick="execute('CA')" />
+    <img class="zoom" style="width:325px;height:325px;" src="data:image/png;base64,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" alt="Picture of Washington state" onclick="execute('WA')" />
+</div>
+<div class="container">
+    <table id="transactions_table" class="table table-bordered" cellspacing="0" width="100%" hidden>
+        <tbody>
+<!--        <tr>-->
+<!--            <th>Month</th>-->
+<!--            <th>Savings</th>-->
+<!--        </tr>-->
+        <tr id="period">
+            <td>Period info</td>
+
+        </tr>
+        <tr id="today">
+            <td>Todays Info</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+
+
+<!--<div id='rick-and-morty-characters'></div>-->
+<!--<div id="todays-temp"></div>-->
 
 
 
 <script>
 
+var originalHTML = document.getElementById('transactions_table').innerHTML;
+
+function setOriginal(){
+    var originalHTML = document.getElementById('transactions_table').innerHTML;
+}
+
 
 function execute(state) {
+        document.getElementById('transactions_table').innerHTML = originalHTML;
         if(state == "CA") {
             fetch('https://api.weather.gov/gridpoints/MTR/97,82/forecast')
                .then(response => response.json())
                .then(characters => showCharacters(characters.properties.periods));
+               document.getElementById('transactions_table').removeAttribute("hidden");
+
            }
+
+        else if(state == "WA") {
+            fetch('https://api.weather.gov/gridpoints/SEW/124,67/forecast')
+               .then(response => response.json())
+               .then(characters => showCharacters(characters.properties.periods));
+               document.getElementById('transactions_table').removeAttribute("hidden");
+
+            }
+
          else{
          console.log("something");
          }
+
     };
 
 
 
 showCharacters = characters => {
-  const charactersDiv = document.querySelector('#rick-and-morty-characters');
+  const charactersDiv = document.querySelector('#period');
   characters.forEach(character => {
-    const characterElement = document.createElement('p');
+    const characterElement = document.createElement('td');
     characterElement.innerText = `Period Name: ${character.name}`;
     charactersDiv.append(characterElement);
   });
 
-  const tempDiv = document.querySelector('#todays-temp');
+  const tempDiv = document.querySelector('#today');
     characters.forEach(i => {
         if (i.name == "This Afternoon"){
-            const tempElement = document.createElement('p');
+            const tempElement = document.createElement('td');
             tempElement.innerText = `Todays Temp: ${i.temperature}`;
             tempDiv.append(tempElement);}
+
      });
+
 }
+
+
 
 
 
